@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sistem Informasi Kelurahan Namasina</title>
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{
+  background:#f0f4f2;
+  color:#12211a;
+  font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+  line-height:1.55;
+  font-size:15px;
+  -webkit-text-size-adjust:100%;
+  padding-bottom:env(safe-area-inset-bottom,16px);
+}
+
+/* ===== HERO ===== */
+.hero{
+  position:relative;overflow:hidden;
+  background:linear-gradient(155deg,#064e3b 0%,#065f46 40%,#047857 70%,#059669 100%);
+  color:#fff;padding:0 0 56px;text-align:center;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+}
+.hero-top{display:flex;align-items:center;justify-content:center;gap:12px;padding:28px 20px 14px}
+.hero-logo{
+  width:64px;height:64px;border-radius:18px;
+  background:rgba(255,255,255,.18);display:grid;place-items:center;
+  font-size:32px;flex:none;box-shadow:0 6px 20px rgba(0,0,0,.25)
+}
+.hero-text small{
+  display:block;letter-spacing:.14em;text-transform:uppercase;
+  opacity:.8;font-size:10px;margin-bottom:3px
+}
+.hero-text h1{font-size:20px;font-weight:800;line-height:1.25;text-align:left}
+.hero-sub{font-size:13px;opacity:.82;padding:0 20px;line-height:1.5}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;padding:5px 14px;font-size:12px;margin-top:10px
+}
+
+/* ===== WRAP ===== */
+.wrap{max-width:600px;margin:0 auto;padding:0 12px 40px}
+.pull{margin-top:-40px;position:relative;z-index:10}
+
+/* ===== CARD ===== */
+.card{
+  background:#fff;border-radius:18px;padding:16px;
+  margin-top:12px;box-shadow:0 2px 14px rgba(0,0,0,.07);
+  border:1px solid #e2e8e5
+}
+.card-title{
+  font-size:15px;font-weight:700;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px
+}
+.card-title .icon{
+  width:32px;height:32px;border-radius:9px;
+  background:#ecfdf5;display:grid;place-items:center;font-size:16px;flex:none
+}
+
+/* ===== STATUS ===== */
+.status-row{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.dot{width:13px;height:13px;border-radius:50%;background:#16a34a;box-shadow:0 0 0 4px rgba(22,163,74,.22);flex:none}
+.dot.off{background:#dc2626;box-shadow:0 0 0 4px rgba(220,38,38,.22)}
+.status-sub{font-size:13px;color:#567060;margin:6px 0 14px}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.btn{
+  display:flex;gap:6px;align-items:center;justify-content:center;
+  padding:13px 8px;border-radius:13px;font-weight:700;font-size:14px;
+  text-decoration:none;transition:opacity .15s;
+  -webkit-tap-highlight-color:transparent
+}
+.btn:active{opacity:.8}
+.btn-primary{background:linear-gradient(135deg,#065f46,#047857);color:#fff}
+.btn-outline{background:#ecfdf5;color:#065f46;border:1.5px solid #a7f3d0}
+
+/* ===== JAM TABLE ===== */
+.jam-table{width:100%;border-collapse:collapse;font-size:14px}
+.jam-table td{padding:9px 4px;border-bottom:1px dashed #e2e8e5}
+.jam-table tr:last-child td{border:0}
+.jam-table td:last-child{text-align:right;font-weight:600}
+.jam-table tr.today td{background:#ecfdf5;font-weight:700;color:#065f46}
+.jam-table tr.today td:first-child{padding-left:8px;border-radius:8px 0 0 8px}
+.jam-table tr.today td:last-child{padding-right:8px;border-radius:0 8px 8px 0}
+.note{font-size:12px;color:#7a958a;margin-top:10px;line-height:1.5}
+
+/* ===== SURAT TABS ===== */
+.tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex:none;padding:9px 16px;border-radius:999px;
+  border:1.5px solid #d1e7dd;background:#fff;color:#2d5a48;
+  font:inherit;font-size:13px;font-weight:600;cursor:pointer;
+  transition:all .15s;-webkit-tap-highlight-color:transparent;
+  min-height:40px
+}
+.tab.on{background:linear-gradient(135deg,#065f46,#047857);color:#fff;border-color:transparent}
+.req{display:none;margin:0;padding-left:20px;font-size:14px;color:#243b31;line-height:1.7}
+.req.on{display:block}
+.req li{margin:6px 0}
+
+/* ===== FASILITAS / KEGIATAN ROWS ===== */
+.row{display:flex;gap:12px;align-items:center;padding:11px 0;border-bottom:1px dashed #e2e8e5}
+.row:last-child{border:0}
+.ic{width:44px;height:44px;border-radius:12px;background:#ecfdf5;display:grid;place-items:center;font-size:22px;flex:none}
+.row-info b{display:block;font-size:14px;font-weight:700}
+.row-info span{font-size:12.5px;color:#7a958a}
+.row a{
+  margin-left:auto;font-size:13px;color:#065f46;font-weight:700;
+  text-decoration:none;white-space:nowrap;background:#ecfdf5;
+  padding:6px 10px;border-radius:8px;flex:none
+}
+
+/* ===== DARURAT ===== */
+.sos-card{border:2px solid #fca5a5}
+.sos-card .card-title{color:#dc2626}
+.sos-card .card-title .icon{background:#fef2f2}
+.sos-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.sos-grid a{
+  display:block;text-decoration:none;
+  background:linear-gradient(135deg,#fff5f5,#fef2f2);
+  border:1.5px solid #fca5a5;border-radius:13px;
+  padding:12px 14px;-webkit-tap-highlight-color:transparent
+}
+.sos-grid a:active{opacity:.8}
+.sos-grid a b{display:block;font-size:19px;font-weight:800;color:#dc2626}
+.sos-grid a span{font-size:12px;color:#7a958a;font-weight:600}
+
+/* ===== STRUKTUR ORGANISASI — MOBILE FIRST ===== */
+.staf-intro{text-align:center;font-size:12.5px;color:#567060;margin-bottom:16px;line-height:1.5}
+
+/* node dasar */
+.sn{
+  border-radius:11px;padding:10px 12px;text-align:center;
+  position:relative;font-size:13px;width:100%;
+}
+.sn-label{
+  display:block;font-size:9px;font-weight:800;letter-spacing:.08em;
+  text-transform:uppercase;color:#fff;
+  border-radius:6px 6px 0 0;
+  margin:-10px -12px 8px;padding:3px 10px;
+}
+.sn b{display:block;font-weight:700;line-height:1.4;color:#12211a}
+.sn small{display:block;font-size:10px;color:#7a958a;margin-top:2px}
+
+/* warna tiap tipe node */
+.sn-lurah  {background:linear-gradient(135deg,#064e3b,#065f46);border:none;max-width:260px;margin:0 auto}
+.sn-lurah .sn-label{background:rgba(0,0,0,.25)}
+.sn-lurah b,.sn-lurah small{color:#fff}
+.sn-lurah small{opacity:.82}
+
+.sn-fung   {background:#fffbeb;border:1.5px solid #fcd34d}
+.sn-fung   .sn-label{background:#d97706}
+
+.sn-sekret {background:#eff6ff;border:1.5px solid #93c5fd}
+.sn-sekret .sn-label{background:#1d4ed8}
+
+.sn-kasi   {background:#f0fdf4;border:1.5px solid #6ee7b7}
+.sn-kasi   .sn-label{background:#065f46}
+
+.sn-staf   {background:#fff;border:1.5px dashed #a7f3d0;font-size:12px}
+.sn-staf b {font-weight:600}
+
+.sn-seksi  {background:#fff;border:1.5px solid #a7f3d0}
+.sn-seksi  .sn-label{background:#065f46}
+.sn-seksi ol{padding-left:17px;margin:4px 0 0;font-size:12.5px;color:#1a3028;line-height:1.9;text-align:left}
+.sn-nip-kosong{font-size:10px;color:#9bb0a6;border-top:1px dashed #a7f3d0;margin-top:6px;padding-top:4px}
+
+/* garis konektor */
+.sv{width:2px;background:#a7f3d0;margin:0 auto}
+/* garis T horizontal */
+.sh{position:relative;height:2px}
+.sh::before{content:'';position:absolute;top:0;left:var(--l,0);right:var(--r,0);height:2px;background:#a7f3d0}
+
+/* grid 2 kolom (Fungsional & Sekretaris) */
+.sg2{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start}
+/* grid 3 kolom (3 Kasi & 3 Seksi) */
+.sg3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;align-items:start}
+/* setiap kolom kasi: node + sub di bawahnya */
+.sc{display:flex;flex-direction:column;align-items:center}
+
+/* ===== INFO KANTOR ===== */
+.info-list{font-size:14px}
+.info-list li{list-style:none;padding:9px 0;border-bottom:1px dashed #e2e8e5;display:flex;gap:8px;align-items:baseline}
+.info-list li:last-child{border:0}
+.info-list li .lbl{font-weight:700;min-width:60px;color:#065f46;flex:none;font-size:13px}
+.info-list li span{font-size:13px;word-break:break-word}
+
+/* ===== FOOTER KKN ===== */
+.footer-kkn{
+  background:linear-gradient(150deg,#1e3a8a 0%,#1d4ed8 50%,#1e40af 100%);
+  color:#fff;border-radius:18px;padding:26px 16px 20px;
+  margin-top:12px;text-align:center;
+  box-shadow:0 6px 28px rgba(30,58,138,.35)
+}
+.kkn-logo-wrap{margin-bottom:12px}
+.kkn-logo-img{
+  width:100px;height:100px;object-fit:contain;
+  border-radius:50%;background:#fff;padding:6px;
+  box-shadow:0 4px 16px rgba(0,0,0,.22)
+}
+.kkn-title{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;opacity:.72;margin-bottom:4px}
+.footer-kkn h3{font-size:16px;font-weight:800;margin-bottom:5px;line-height:1.35}
+.footer-kkn p{font-size:13px;opacity:.85;line-height:1.7}
+.kkn-divider{width:44px;height:2px;background:rgba(255,255,255,.28);border-radius:2px;margin:11px auto}
+.kkn-chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:10px}
+.kkn-chip{
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);
+  border-radius:999px;padding:4px 13px;font-size:11px;font-weight:600
+}
+.footer-copy{text-align:center;font-size:11.5px;color:#7a958a;margin-top:12px;padding-bottom:8px;line-height:1.5}
+
+/* ===================================================
+   RESPONSIVE — layar ≥ 520px (tablet / HP besar)
+   =================================================== */
+@media(min-width:520px){
+  .hero-text h1{font-size:22px}
+}
+
+/* ===================================================
+   Layar sangat kecil (< 360px): kurangi padding & font
+   =================================================== */
+@media(max-width:359px){
+  .wrap{padding:0 8px 40px}
+  .card{padding:14px 10px}
+  .btn-row{grid-template-columns:1fr}
+  .sos-grid{grid-template-columns:1fr}
+  .sg3 .sn{font-size:10.5px;padding:8px 6px}
+  .sg3 .sn-label{font-size:7.5px;padding:2px 6px}
+  .sg3 .sn ol{font-size:10.5px}
+  .sg2 .sn{font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-top">
+    <div class="hero-logo">🏛️</div>
+    <div class="hero-text">
+      <small>Sistem Informasi Pelayanan Publik</small>
+      <h1 id="nm">Kelurahan Namasina</h1>
+    </div>
+  </div>
+  <p class="hero-sub" id="wil">Kecamatan Kota Masohi · Kabupaten Maluku Tengah</p>
+  <div class="hero-badge"> Melayani dengan Tulus &amp; Ikhlas</div>
+</header>
+
+<div class="wrap">
+
+  <!-- STATUS & KONTAK -->
+  <section class="card pull">
+    <div class="status-row"><span class="dot" id="dot"></span><span id="stat">Memeriksa…</span></div>
+    <p class="status-sub" id="statSub"></p>
+    <div class="btn-row">
+      <a class="btn btn-primary" id="bTel">📞 Telepon Kantor</a>
+      <a class="btn btn-outline" id="bWa" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- STRUKTUR ORGANISASI -->
+  <section class="card" id="struktur">
+    <div class="card-title"><span class="icon">👥</span>Struktur Organisasi Kelurahan</div>
+    <p class="staf-intro">Kelurahan Namasina · Kecamatan Kota Masohi · Kabupaten Maluku Tengah</p>
+
+    <!-- ① LURAH -->
+    <div class="sn sn-lurah">
+      <span class="sn-label">Lurah</span>
+      <b>Gempur R. Paron, S.Sos</b>
+      <small>NIP. 19821103 200904 1 007</small>
+    </div>
+
+    <div class="sv" style="height:16px"></div>
+    <div class="sh" style="--l:25%;--r:25%"></div>
+
+    <!-- ② FUNGSIONAL + SEKRETARIS -->
+    <div class="sg2">
+      <div class="sc">
+        <div class="sv" style="height:14px"></div>
+        <div class="sn sn-fung" style="width:100%">
+          <span class="sn-label">Kelompok Jabatan Fungsional</span>
+          <small style="color:#92400e">—</small>
+        </div>
+      </div>
+      <div class="sc">
+        <div class="sv" style="height:14px"></div>
+        <div class="sn sn-sekret" style="width:100%">
+          <span class="sn-label">Sekretaris</span>
+          <b>George A. Latale, SP</b>
+          <small>NIP. 19740417 201601 1 001</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="sv" style="height:16px"></div>
+    <div class="sh" style="--l:10%;--r:10%"></div>
+
+    <!-- ③ TIGA KASI -->
+    <div class="sg3">
+
+      <!-- Kasi Pemerintahan -->
+      <div class="sc">
+        <div class="sv" style="height:14px"></div>
+        <div class="sn sn-kasi" style="width:100%">
+          <span class="sn-label">Kasi Pemerintahan</span>
+          <span class="sn-nip-kosong">NIP. ___________</span>
+        </div>
+        <div class="sv" style="height:10px"></div>
+        <div class="sn sn-staf" style="width:100%">
+          <b>Mathilda F. Liemena</b>
+          <small>NIP. 19770103 201001 2 011</small>
+        </div>
+        <div class="sv" style="height:6px"></div>
+        <div class="sn sn-staf" style="width:100%">
+          <b>Poinela Pattirane</b>
+          <small>NIP. 19740513 200904 2 004</small>
+        </div>
+      </div>
+
+      <!-- Kasi Trantib -->
+      <div class="sc">
+        <div class="sv" style="height:14px"></div>
+        <div class="sn sn-kasi" style="width:100%">
+          <span class="sn-label">Kasi Trantib</span>
+          <span class="sn-nip-kosong">NIP. ___________</span>
+        </div>
+        <div class="sv" style="height:10px"></div>
+        <div class="sn sn-staf" style="width:100%">
+          <b>Rosa D. Matanubun</b>
+          <small>NIP. 19691102 200904 2 001</small>
+        </div>
+      </div>
+
+      <!-- Kasi Ekbang & Kesos -->
+      <div class="sc">
+        <div class="sv" style="height:14px"></div>
+        <div class="sn sn-kasi" style="width:100%">
+          <span class="sn-label">Kasi Ekbang &amp; Kesos</span>
+          <span class="sn-nip-kosong">NIP. ___________</span>
+        </div>
+        <div class="sv" style="height:10px"></div>
+        <div class="sn sn-staf" style="width:100%">
+          <b>Johanis T. Demon</b>
+          <small>NIP. 19761015 201601 1 001</small>
+        </div>
+      </div>
+
+    </div><!-- /3 Kasi -->
+
+    <div class="sv" style="height:16px"></div>
+    <div class="sh" style="--l:10%;--r:10%"></div>
+
+    <!-- ④ TIGA SEKSI -->
+    <div class="sg3">
+
+      <div class="sc">
+        <div class="sv" style="height:14px"></div>
+        <div class="sn sn-seksi" style="width:100%">
+          <span class="sn-label">Seksi Pemerintahan</span>
+          <ol>
+            <li>Sarce Sipasulta, S.Sos</li>
+            <li>Julius S. Souhoka</li>
+            <li>Yoseph P. Mairiring</li>
+            <li>Lidya O. Y. Siwabessy</li>
+            <li>Petrus B. Nahusona</li>
+            <li>Yustina B. Tokan</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="sc">
+        <div class="sv" style="height:14px"></div>
+        <div class="sn sn-seksi" style="width:100%">
+          <span class="sn-label">Seksi Trantib</span>
+          <ol>
+            <li>Florence Resusun</li>
+            <li>Ezra A. Wasla</li>
+            <li>Chistina Renyaan</li>
+            <li>Agri D. Sopacua</li>
+            <li>Mathasya Nikiyuluw</li>
+            <li>Rieka</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="sc">
+        <div class="sv" style="height:14px"></div>
+        <div class="sn sn-seksi" style="width:100%">
+          <span class="sn-label">Seksi Ekbang &amp; Kesos</span>
+          <ol>
+            <li>Dela Titiheru</li>
+            <li>Rosalina M. Rehy</li>
+            <li>Demetria H. L. Pariury</li>
+            <li>Fabianus Leuape</li>
+            <li>Helena Sabarlele</li>
+          </ol>
+        </div>
+      </div>
+
+    </div><!-- /3 Seksi -->
+
+    <p class="note" style="margin-top:14px">📌 Struktur dapat berubah sesuai kebijakan pemerintah daerah.</p>
+  </section>
+
+  <!-- JAM PELAYANAN -->
+  <section class="card" id="jam">
+    <div class="card-title"><span class="icon">🕒</span>Jam Pelayanan</div>
+    <table class="jam-table" id="tJam"></table>
+    <p class="note">⚠️ Hari libur nasional &amp; cuti bersama kantor tutup.</p>
+  </section>
+
+  <!-- PERSYARATAN SURAT -->
+  <section class="card" id="syarat">
+    <div class="card-title"><span class="icon">📋</span>Persyaratan Surat</div>
+    <div class="tabs" id="tabs"></div>
+    <div id="reqs"></div>
+    <p class="note">Bawa dokumen asli dan fotokopi. Pelayanan administrasi <b>GRATIS</b>.</p>
+  </section>
+
+  <!-- FASILITAS UMUM -->
+  <section class="card" id="fasum">
+    <div class="card-title"><span class="icon">🏥</span>Fasilitas Umum</div>
+    <div id="lFasum"></div>
+  </section>
+
+  <!-- JADWAL KEGIATAN -->
+  <section class="card" id="kegiatan">
+    <div class="card-title"><span class="icon">📅</span>Jadwal Kegiatan Warga</div>
+    <div id="lKeg"></div>
+  </section>
+
+  <!-- DARURAT -->
+  <section class="card sos-card" id="darurat">
+    <div class="card-title"><span class="icon">🚨</span>Nomor Darurat</div>
+    <div class="sos-grid" id="sos"></div>
+    <p class="note">Ketuk nomor untuk langsung menelepon.</p>
+  </section>
+
+  <!-- INFORMASI KANTOR -->
+  <section class="card" id="kantor">
+    <div class="card-title"><span class="icon">🏢</span>Informasi Kantor</div>
+    <ul class="info-list">
+      <li><span class="lbl">Alamat</span><span id="al"></span></li>
+      <li><span class="lbl">Email</span><span id="em"></span></li>
+    </ul>
+    <div class="btn-row" style="margin-top:14px">
+      <a class="btn btn-primary" id="bMap" target="_blank" rel="noopener">🗺️ Lihat di Peta</a>
+      <a class="btn btn-outline" id="bAdu">📢 Kirim Pengaduan</a>
+    </div>
+  </section>
+
+  <!-- FOOTER KKN -->
+  <div class="footer-kkn">
+    <div class="kkn-logo-wrap">
+      <img class="kkn-logo-img" src="LOGO.jpeg"
+           alt="Logo KKN Angkatan LIII Universitas Pattimura Kelurahan Namasina"
+           onerror="this.style.display='none';document.getElementById('kkn-fb').style.display='block'">
+      <div id="kkn-fb" style="display:none;font-size:48px;margin-bottom:6px">🎓</div>
+    </div>
+    <p class="kkn-title">Sistem Informasi ini dipersembahkan oleh</p>
+    <h3>Mahasiswa KKN Universitas Pattimura</h3>
+    <p>
+      <strong>Angkatan LIII · Gelombang 1</strong><br>
+      Kelurahan Namasina · Kecamatan Kota Masohi<br>
+      Kabupaten Maluku Tengah · 2026
+    </p>
+    <div class="kkn-divider"></div>
+    <div class="kkn-chips">
+      <span class="kkn-chip">📍 Kelurahan Namasina</span>
+      <span class="kkn-chip">🎓 UNPATTI 2026</span>
+    </div>
+  </div>
+
+  <p class="footer-copy" id="ft"></p>
+
+</div><!-- /wrap -->
+
+<script>
+/* ========= DATA (edit di sini atau di data.json) ========= */
+var DATA_INLINE = {
+  nama:    "Kelurahan Namasina",
+  wilayah: "Kecamatan Kota Masohi · Kabupaten Maluku Tengah",
+  alamat:  "Jl. CHR. M. Tiahahu, Namasina",
+  telepon: "+62 822-3882-4099",
+  wa:      "6282238824099",
+  email:   "kantorkelurahannamasina@gmail.com",
+  maps:    "https://maps.app.goo.gl/LCxHekgQZwj7x8qA8",
+  jam: [
+    ["Senin",   "08.00 – 15.30"],
+    ["Selasa",  "08.00 – 15.30"],
+    ["Rabu",    "08.00 – 15.30"],
+    ["Kamis",   "08.00 – 15.30"],
+    ["Jumat",   "08.00 – 11.30"],
+    ["Sabtu",   "Tutup"],
+    ["Minggu",  "Tutup"]
+  ],
+  surat: {
+    "Pengantar KTP": ["Surat pengantar RT/RW","Fotokopi Kartu Keluarga","KTP asli"],
+    "Domisili":      ["Surat pengantar RT/RW","Fotokopi Kartu Keluarga","KTP asli"],
+    "Kematian":      ["Surat pengantar RT/RW","Fotokopi Kartu Keluarga","KTP almarhum"],
+    "Pindah":        ["Surat pengantar RT/RW","Fotokopi Kartu Keluarga","KTP asli"]
+  },
+  fasum: [
+    ["🏥","Puskesmas / Pustu","Pelayanan kesehatan dasar"],
+    ["🏫","Sekolah","SD / SMP di wilayah kelurahan"],
+    ["⛪","Rumah Ibadah","Gereja & Masjid"]
+  ],
+  kegiatan: [
+    ["🍼","Posyandu Balita","Minggu ke-2 setiap bulan (Tgl 14–16)"],
+    ["👵","Posyandu Lansia","Minggu ke-2 setiap bulan (Tgl 14–16)"]
+  ],
+  darurat: [
+    ["110",          "Polisi"],
+    ["0914-2310149", "Pemadam Kebakaran"],
+    ["0914-2310893", "RSUD Masohi"],
+    ["115",          "SAR / Basarnas"],
+    ["0914-123",     "PLN Gangguan"]
+  ]
+};
+/* ========================================================= */
+
+/* Coba ambil data.json (saat di server/Netlify),
+   kalau gagal (buka file langsung) pakai data di atas */
+fetch('data.json')
+  .then(function(r){
+    if(!r.ok) throw new Error('no server');
+    return r.json();
+  })
+  .then(function(D){ init(D); })
+  .catch(function(){ init(DATA_INLINE); });
+
+function init(D) {
+/* ============================================== */
+
+function $(id){ return document.getElementById(id); }
+
+document.title           = "Info " + D.nama;
+$("nm").textContent      = D.nama;
+$("wil").textContent     = D.wilayah;
+$("al").textContent      = D.alamat;
+$("em").textContent      = D.email;
+$("ft").textContent      = "© " + new Date().getFullYear() + " " + D.nama + " · Untuk informasi terkini hubungi kantor kelurahan";
+
+$("bTel").href = "tel:" + D.telepon.replace(/[\s\-]/g,"");
+$("bWa").href  = "https://wa.me/" + D.wa;
+$("bMap").href = D.maps || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(D.nama + " " + D.alamat);
+$("bAdu").href = "mailto:" + D.email + "?subject=" + encodeURIComponent("Pengaduan Warga " + D.nama);
+
+/* Jam */
+var HARI = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+var now = new Date(), hariIni = HARI[now.getDay()];
+
+$("tJam").innerHTML = D.jam.map(function(r){
+  var t = r[0] === hariIni;
+  return '<tr class="'+(t?"today":"")+'">'
+    +'<td>'+r[0]+(t?' <span style="font-size:11px;background:#065f46;color:#fff;border-radius:5px;padding:1px 6px">Hari ini</span>':'')+'</td>'
+    +'<td>'+r[1]+'</td></tr>';
+}).join("");
+
+/* Status buka/tutup */
+(function(){
+  var row = D.jam.filter(function(x){return x[0]===hariIni;})[0];
+  var open = false;
+  if(row){
+    var m = row[1].match(/(\d+)\.(\d+)\s*[–\-]\s*(\d+)\.(\d+)/);
+    if(m){var t=now.getHours()*60+now.getMinutes();open=t>=(+m[1]*60+ +m[2])&&t<(+m[3]*60+ +m[4]);}
+  }
+  $("dot").className = "dot"+(open?"":" off");
+  $("stat").textContent    = open ? "Kantor Sedang BUKA ✓" : "Kantor Sedang TUTUP";
+  $("statSub").textContent = row ? "Jam hari ini ("+hariIni+"): "+row[1] : "";
+})();
+
+/* Tabs surat */
+var keys = Object.keys(D.surat);
+$("tabs").innerHTML = keys.map(function(k,i){
+  return '<button class="tab'+(i?"":" on")+'" data-i="'+i+'">'+k+'</button>';
+}).join("");
+$("reqs").innerHTML = keys.map(function(k,i){
+  return '<ol class="req'+(i?"":" on")+'">'+D.surat[k].map(function(x){return '<li>'+x+'</li>';}).join("")+'</ol>';
+}).join("");
+$("tabs").addEventListener("click",function(e){
+  var btn=e.target.closest("[data-i]");if(!btn)return;
+  var idx=+btn.dataset.i;
+  document.querySelectorAll(".tab").forEach(function(t,j){t.classList.toggle("on",j===idx);});
+  document.querySelectorAll(".req").forEach(function(t,j){t.classList.toggle("on",j===idx);});
+});
+
+/* Fasilitas & Kegiatan */
+function buildRows(arr,withMap){
+  return arr.map(function(f){
+    return '<div class="row">'
+      +'<div class="ic">'+f[0]+'</div>'
+      +'<div class="row-info"><b>'+f[1]+'</b><span>'+f[2]+'</span></div>'
+      +(withMap?'<a href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(f[1]+" "+D.nama)+'" target="_blank" rel="noopener">Peta ›</a>':'')
+      +'</div>';
+  }).join("");
+}
+$("lFasum").innerHTML = buildRows(D.fasum,true);
+$("lKeg").innerHTML   = buildRows(D.kegiatan,false);
+
+/* Darurat */
+$("sos").innerHTML = D.darurat.map(function(s){
+  return '<a href="tel:'+s[0].replace(/[\s\-]/g,"")+'">'
+    +'<b>'+s[0]+'</b><span>'+s[1]+'</span></a>';
+}).join("");
+
+} /* end init() */
+</script>
+</body>
+</html>
