@@ -1,0 +1,103 @@
+{
+  "nama":    "Kelurahan Namasina",
+  "wilayah": "Kecamatan Kota Masohi · Kabupaten Maluku Tengah",
+  "alamat":  "Jl. CHR. M. Tiahahu, Namasina",
+  "telepon": "+62 822-3882-4099",
+  "wa":      "6282238824099",
+  "email":   "kantorkelurahannamasina@gmail.com",
+  "maps":    "https://maps.app.goo.gl/LCxHekgQZwj7x8qA8",
+
+  "jam": [
+    ["Senin",   "08.00 – 15.30"],
+    ["Selasa",  "08.00 – 15.30"],
+    ["Rabu",    "08.00 – 15.30"],
+    ["Kamis",   "08.00 – 15.30"],
+    ["Jumat",   "08.00 – 11.30"],
+    ["Sabtu",   "Tutup"],
+    ["Minggu",  "Tutup"]
+  ],
+
+  "surat": {
+    "Pengantar KTP": ["Surat pengantar RT/RW", "Fotokopi Kartu Keluarga", "KTP asli"],
+    "Domisili":      ["Surat pengantar RT/RW", "Fotokopi Kartu Keluarga", "KTP asli"],
+    "Kematian":      ["Surat pengantar RT/RW", "Fotokopi Kartu Keluarga", "KTP almarhum"],
+    "Pindah":        ["Surat pengantar RT/RW", "Fotokopi Kartu Keluarga", "KTP asli"]
+  },
+
+  "fasum": [
+    ["🏥", "Puskesmas / Pustu",  "Pelayanan kesehatan dasar"],
+    ["🏫", "Sekolah",            "SD / SMP di wilayah kelurahan"],
+    ["⛪", "Rumah Ibadah",       "Gereja & Masjid"]
+  ],
+
+  "kegiatan": [
+    ["🍼", "Posyandu Balita", "Minggu ke-2 setiap bulan (Tgl 14–16)"],
+    ["👵", "Posyandu Lansia", "Minggu ke-2 setiap bulan (Tgl 14–16)"]
+  ],
+
+  "darurat": [
+    ["110",          "Polisi"],
+    ["0914-2310149", "Pemadam Kebakaran"],
+    ["0914-2310893", "RSUD Masohi"],
+    ["115",          "SAR / Basarnas"],
+    ["0914-123",     "PLN Gangguan"]
+  ],
+
+  "struktur": {
+    "lurah": {
+      "nama": "Gempur R. Paron, S.Sos",
+      "nip":  "19821103 200904 1 007"
+    },
+    "sekretaris": {
+      "nama": "George A. Latale, SP",
+      "nip":  "19740417 201601 1 001"
+    },
+    "kasi": [
+      {
+        "jabatan": "Kasi Pemerintahan",
+        "nip": "",
+        "staf": [
+          { "nama": "Mathilda F. Liemena", "nip": "19770103 201001 2 011" },
+          { "nama": "Poinela Pattirane",   "nip": "19740513 200904 2 004" }
+        ],
+        "seksi": [
+          "Sarce Sipasulta, S.Sos",
+          "Julius S. Souhoka",
+          "Yoseph P. Mairiring",
+          "Lidya O. Y. Siwabessy",
+          "Petrus B. Nahusona",
+          "Yustina B. Tokan"
+        ]
+      },
+      {
+        "jabatan": "Kasi Trantib",
+        "nip": "",
+        "staf": [
+          { "nama": "Rosa D. Matanubun", "nip": "19691102 200904 2 001" }
+        ],
+        "seksi": [
+          "Florence Resusun",
+          "Ezra A. Wasla",
+          "Chistina Renyaan",
+          "Agri D. Sopacua",
+          "Mathasya Nikiyuluw",
+          "Rieka"
+        ]
+      },
+      {
+        "jabatan": "Kasi Ekbang & Kesos",
+        "nip": "",
+        "staf": [
+          { "nama": "Johanis T. Demon", "nip": "19761015 201601 1 001" }
+        ],
+        "seksi": [
+          "Dela Titiheru",
+          "Rosalina M. Rehy",
+          "Demetria H. L. Pariury",
+          "Fabianus Leuape",
+          "Helena Sabarlele"
+        ]
+      }
+    ]
+  }
+}
