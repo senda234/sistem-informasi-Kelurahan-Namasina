@@ -8,11 +8,11 @@
   "maps":    "https://maps.app.goo.gl/LCxHekgQZwj7x8qA8",
 
   "jam": [
-    ["Senin",   "08.00 – 15.30"],
-    ["Selasa",  "08.00 – 15.30"],
-    ["Rabu",    "08.00 – 15.30"],
-    ["Kamis",   "08.00 – 15.30"],
-    ["Jumat",   "08.00 – 11.30"],
+    ["Senin",   "08.00 – 16.00"],
+    ["Selasa",  "08.00 – 16.00"],
+    ["Rabu",    "08.00 – 16.00"],
+    ["Kamis",   "08.00 – 16.00"],
+    ["Jumat",   "08.00 – 12.00"],
     ["Sabtu",   "Tutup"],
     ["Minggu",  "Tutup"]
   ],
